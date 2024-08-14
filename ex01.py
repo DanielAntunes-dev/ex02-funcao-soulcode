@@ -1,6 +1,8 @@
 import math
 
-def calculadora_cientifica(escolha, numero1=None, numero2=None):
+
+def calculadora_cientifica():
+    
     soma = lambda x, y: x + y
     subtracao = lambda x, y: x - y
     multiplicacao = lambda x, y: x * y
@@ -23,31 +25,37 @@ def calculadora_cientifica(escolha, numero1=None, numero2=None):
         '7': ('Tangente', tangente),
         '8': ('Exponenciação', exponenciacao),
         '9': ('Logaritmo Natural', logaritmo),
-        '10': ('Raiz quadrada', raiz_quadrada)
+        '10': ("Raiz quadrada", raiz_quadrada)
     }
 
-    if escolha in operacoes:
+    print("Calculadora Científica - Menu")
+    for chave, (valor, _) in operacoes.items():
+        print(f"{chave}. {valor}")
+
+    while True:
+        escolha = input("Digite o número da operação desejada ou 'sair' para encerrar: ").lower()
         
-        valor, funcao = operacoes[escolha]
-        if escolha == "0":
+        if escolha == "sair":
             print("Saindo...")
-            return None
-        elif escolha in ['1', '2', '3', '4', '8']:
-            resultado = funcao(numero1, numero2)
-        else:
-            resultado = funcao(numero1)
+            break
         
+        if escolha in operacoes:
+            valor, funcao = operacoes[escolha]
             
-        print(f"{valor} resultado: {resultado}")
-        return resultado
-    else:
-        print('Operação inválida!')
-        return None
+            if funcao is None:
+                print("Saindo...")
+                break
+            
+            if escolha in ['1', '2', '3', '4', '8']:
+                numero1 = float(input("Digite o primeiro número: "))
+                numero2 = float(input("Digite o segundo número: ")) if escolha != '8' else float(input("Digite o expoente: "))
+                resultado = funcao(numero1, numero2)
+            else:
+                numero = float(input("Digite o número: "))
+                resultado = funcao(numero)
+                
+            print(f"{valor} resultado: {resultado}")
+        else:
+            print('Operação inválida!')
 
-
-def teste_calculadora():
-    calculadora_cientifica('1', 10, 5) 
-    calculadora_cientifica('3',10, 4)
-    calculadora_cientifica('0')
-
-teste_calculadora()
+calculadora_cientifica()
